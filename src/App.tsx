@@ -3,8 +3,6 @@ import { Input, Spacer, Text } from '@nextui-org/react';
 import { BsCheck2 } from 'react-icons/bs';
 import WakatimeClient from './utils/WakatimeClient';
 
-import settings from './res/settings.json';
-
 import './scss/App.global.scss';
 
 export default function App() {
