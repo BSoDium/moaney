@@ -32,7 +32,7 @@ export default function App() {
         textGradient: "45deg, $blue600 -20%, $pink600 50%",
       }}
         weight="bold"
-      >moneytor.</Text>
+      >Moneytor.</Text>
       <Text h2>Your time is worth money.</Text>
       <Spacer y={1} />
       <Input
