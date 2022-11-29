@@ -1,0 +1,44 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	"launch": {
+    "configurations": [
+      {
+        "name": "Debug app",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "args": [
+          "start"
+        ],
+        "runtimeExecutable": "yarn",
+        "resolveSourceMapLocations": [
+          "${workspaceFolder}/",
+          "!/node_modules/**"
+        ]
+      },
+      {
+        "name": "Storybook",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "args": [
+          "storybook"
+        ],
+        "runtimeExecutable": "yarn",
+        "resolveSourceMapLocations": [
+          "${workspaceFolder}/",
+          "!/node_modules/**"
+        ]
+      }
+    ],
+    "compounds": []
+  }
+}
