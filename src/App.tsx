@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Spacer, Text, Image } from '@nextui-org/react';
+import { Input, Spacer, Text } from '@nextui-org/react';
 import { BsCheck2 } from 'react-icons/bs';
 import WakatimeClient from './utils/WakatimeClient';
-import logo from './res/logo512.png';
 
 import './scss/App.global.scss';
 
