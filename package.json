@@ -1,7 +1,8 @@
 {
   "name": "moaney",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "homepage": "https://www.bsodium.fr/moaney/",
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.10",
     "@testing-library/jest-dom": "^5.14.1",
