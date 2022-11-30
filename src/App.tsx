@@ -13,7 +13,7 @@ export default function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // TODO: Fetch data from Wakatime
+      // TODO: Fetch data from Wakatime (https://wakatime.com/developers#authentication)
 
       setTime(Date.now());
     }, 10000);
