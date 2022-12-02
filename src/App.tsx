@@ -21,8 +21,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Landing />}/>
-        <Route path="authenticate" element={<Authenticate/>}/>
+        <Route path="moneytor">
+          <Route index element={<Landing />} />
+          <Route path="authenticate" element={<Authenticate />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
