@@ -34,28 +34,28 @@ export default function Landing() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
 
-  const code = useMemo(() => searchParams.get('code'), [searchParams]);
+  const sessionCodeParam = useMemo(() => searchParams.get('code'), [searchParams]);
 
   useEffect(() => {
-    // API redirect
-    if (code) {
-      if (code) {
-        setSessionCode(code);
-        localStorage.setItem(storage.auth.sessionCode, code);
-      }
+    // API redirect, overwrite session code
+    if (sessionCodeParam) {
+      setSessionCode(sessionCodeParam);
+      localStorage.setItem(storage.auth.sessionCode, sessionCodeParam);
     }
+  }, [sessionCodeParam]);
 
+  useEffect(() => {
     // Retrieve access token
     if (sessionCode) {
       getToken(sessionCode).then((res) => {
         res.json().then((data) => {
           setAccessToken(data.access_token);
           setRefreshToken(data.refresh_token);
-          console.log(data);
+          console.log(data); // TODO: Remove
         });
       });
     }
-  }, [searchParams]);
+  }, [sessionCode]);
 
   return (
     <div className="container">
@@ -66,13 +66,13 @@ export default function Landing() {
       >Moneytor.</Text>
       <Text h2>Your time is worth money.</Text>
       <Spacer y={1} />
-      <Button color="gradient" bordered onPress={authorizeAccess} disabled={!!code}>
-        {code ? <Loading type="points" color="currentColor" size="sm" /> : "Wakatime login"}
+      <Button color="gradient" bordered onPress={authorizeAccess}>
+        Wakatime login
       </Button>
-      {code && (
+      {sessionCodeParam && (
         <>
           <Spacer y={1} />
-          <Text>Code: {code}</Text>
+          <Text>Code: {sessionCodeParam}</Text>
         </>
       )}
     </div>
