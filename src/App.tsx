@@ -4,7 +4,6 @@ import './scss/App.global.scss';
 
 import Landing from './components/Landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Authenticate from './components/Authenticate';
 
 export default function App() {
   const [heartbeat, setHeartbeat] = useState(Date.now());
@@ -23,7 +22,6 @@ export default function App() {
     <BrowserRouter basename='moneytor'>
       <Routes>
         <Route index element={<Landing />} />
-        <Route path="authenticate" element={<Authenticate />} />
       </Routes>
     </BrowserRouter>
   );
