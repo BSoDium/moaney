@@ -28,4 +28,19 @@ export default class Auth {
       Auth.redirectUri
     }&scope=read_stats`, '_blank');
   }
+
+  public static async setSessionCode(code: string) {
+    Auth.sessionCode = code;
+    localStorage.setItem(storage.auth.sessionCode, code);
+  }
+
+  public static async setAccessToken(token: string) {
+    Auth.accessToken = token;
+    localStorage.setItem(storage.auth.accessToken, token);
+  }
+
+  public static async setRefreshToken(token: string) {
+    Auth.refreshToken = token;
+    localStorage.setItem(storage.auth.refreshToken, token);
+  }
 }

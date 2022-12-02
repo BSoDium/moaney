@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import './scss/App.global.scss';
+
 import Landing from './components/Landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Authenticate from './components/Authenticate';
@@ -19,12 +20,10 @@ export default function App() {
 
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='moneytor'>
       <Routes>
-        <Route path="moneytor">
-          <Route index element={<Landing />} />
-          <Route path="authenticate" element={<Authenticate />} />
-        </Route>
+        <Route index element={<Landing />} />
+        <Route path="authenticate" element={<Authenticate />} />
       </Routes>
     </BrowserRouter>
   );
