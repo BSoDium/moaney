@@ -1,23 +1,30 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
 
-// @ts-ignore
-window.Buffer = Buffer;
-
-/**
- * @deprecated
- */
 export default class WakatimeClient {
-  private readonly apiKey: string;
-  private readonly baseUrl: string;
-  private readonly axios: any;
+  private apiKey: string;
+  private baseUrl: string;
+  private axios: any;
 
   constructor(apiKey: string, baseUrl: string = 'https://wakatime.com/api/v1') {
     this.apiKey = apiKey;
     this.baseUrl = baseUrl;
     this.axios = axios.create({
-      baseURL: this.baseUrl,
-      headers: { Authorization: `Basic ${Buffer.from(this.apiKey).toString('base64')}` },
+      baseURL: `${this.baseUrl}`,
+      params: {
+        api_key: this.apiKey,
+      },
+    });
+    console.log(Buffer.from(this.apiKey).toString('base64'));
+  }
+
+  public setApiKey(apiKey: string) {
+    this.apiKey = apiKey;
+    this.axios = axios.create({
+      baseURL: `${this.baseUrl}`,
+      params: {
+        api_key: this.apiKey,
+      },
     });
   }
 
