@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Spacer, Text } from '@nextui-org/react';
+import { Button, Loading, Spacer, Text } from '@nextui-org/react';
 import storage from '../res/storage.json';
 
 // TODO: Put this in a separate file (Ideally encrypted, but that's a bit useless since 
@@ -21,7 +21,7 @@ async function getToken(code:string) {
   return fetch('https://wakatime.com/oauth/token', {
     method: 'POST',
     headers: {
-      'Content-Type': 'x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: `client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code&redirect_uri=${redirectUri}`,
   })
@@ -34,10 +34,11 @@ export default function Landing() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
 
+  const code = useMemo(() => searchParams.get('code'), [searchParams]);
+
   useEffect(() => {
     // API redirect
-    if (searchParams.has("code")) {
-      const code = searchParams.get("code");
+    if (code) {
       if (code) {
         setSessionCode(code);
         localStorage.setItem(storage.auth.sessionCode, code);
@@ -65,13 +66,13 @@ export default function Landing() {
       >Moneytor.</Text>
       <Text h2>Your time is worth money.</Text>
       <Spacer y={1} />
-      <Button color="gradient" bordered onPress={authorizeAccess}>
-        Wakatime login
+      <Button color="gradient" bordered onPress={authorizeAccess} disabled={!!code}>
+        {code ? <Loading type="points" color="currentColor" size="sm" /> : "Wakatime login"}
       </Button>
-      {searchParams.get('code') && (
+      {code && (
         <>
           <Spacer y={1} />
-          <Text>Code: {searchParams.get('code')}</Text>
+          <Text>Code: {code}</Text>
         </>
       )}
     </div>
