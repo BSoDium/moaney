@@ -4,6 +4,9 @@ import { Buffer } from 'buffer';
 // @ts-ignore
 window.Buffer = Buffer;
 
+/**
+ * @deprecated
+ */
 export default class WakatimeClient {
   private readonly apiKey: string;
   private readonly baseUrl: string;

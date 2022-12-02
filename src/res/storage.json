@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "sessionCode": "session-code",
+    "accessToken": "access-token",
+    "refreshToken": "refresh-token"
+  },
+  "hourlyRate": "hourly-rate",
+  "currency": "currency"
+}
