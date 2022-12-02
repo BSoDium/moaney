@@ -14,7 +14,7 @@ function authorizeAccess() {
       clientId
     }&response_type=code&redirect_uri=${
       redirectUri
-    }&scope=read_stats`, '_blank');
+    }&scope=read_stats,read_logged_time`, '_blank');
 }
 
 async function getToken(code:string) {
@@ -53,6 +53,9 @@ export default function Landing() {
           setRefreshToken(data.refresh_token);
           console.log(data); // TODO: Remove
         });
+      }).catch((err) => {
+        console.error(err);
+        console.error("Failed to retrieve access token");
       });
     }
   }, [sessionCode]);
