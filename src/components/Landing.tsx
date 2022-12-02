@@ -1,16 +1,21 @@
-import React, { useMemo, useState } from 'react';
-import { Button, Card, Input, Loading, Spacer, Text } from '@nextui-org/react';
-import { BsCheck2 } from 'react-icons/bs';
-import WakatimeClient from '../utils/WakatimeClient';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Input, Link, Spacer, Text } from '@nextui-org/react';
 import { Layout } from './Layout';
+import { BsCheck2 } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import WakatimeClient from '../utils/WakatimeClient';
 
-export default function Landing() {
-  const client = useMemo(() => new WakatimeClient(""), []);
-  const [connected, setConnected] = useState(false);
-
+export default function Landing({
+  client,
+  connected,
+  setConnected,
+}: {
+  client: WakatimeClient;
+  connected: boolean;
+  setConnected: (connected: boolean) => void;
+}) {
   const navigate = useNavigate();
-
+  
   return (
     <Layout>
       <Text h1 size={60} css={{
@@ -27,6 +32,8 @@ export default function Landing() {
         width='min(90%, 400px)'
         contentRight={connected ? <BsCheck2 /> : null}
         status={connected ? 'success' : 'default'}
+        readOnly={connected}
+        value={client.getApiKey()}
         onChange={async (e) => {
           client.setApiKey(e.target.value);
           if (await client.isApiKeyValid()) {
@@ -38,6 +45,11 @@ export default function Landing() {
           }
         }}
       />
+      <Spacer y={1} />
+      {connected && 
+      <Link block color="success" href="dashboard">
+        Not getting redirected? Click here.
+      </Link>}
     </Layout>
-  );
+  )
 }
