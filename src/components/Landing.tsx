@@ -1,21 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, Link, Spacer, Text } from '@nextui-org/react';
 import { Layout } from './Layout';
 import { BsCheck2 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import WakatimeClient from '../utils/WakatimeClient';
+import Client from '../utils/Client';
 
-export default function Landing({
-  client,
-  connected,
-  setConnected,
-}: {
-  client: WakatimeClient;
-  connected: boolean;
-  setConnected: (connected: boolean) => void;
-}) {
+export default function Landing() {
+  const [keyIsValid, setKeyIsValid] = useState(false);
+
   const navigate = useNavigate();
-  
+
   return (
     <Layout>
       <Text h1 size={60} css={{
@@ -30,26 +24,22 @@ export default function Landing({
         type='password'
         labelPlaceholder='Wakatime API Key'
         width='min(90%, 400px)'
-        contentRight={connected ? <BsCheck2 /> : null}
-        status={connected ? 'success' : 'default'}
-        readOnly={connected}
-        value={client.getApiKey()}
+        contentRight={keyIsValid ? <BsCheck2 /> : null}
+        status={keyIsValid ? 'success' : 'default'}
+        readOnly={keyIsValid}
+        value={Client.getApiKey()}
         onChange={async (e) => {
-          client.setApiKey(e.target.value);
-          if (await client.isApiKeyValid()) {
-            setConnected(true);
-            // Wait for the animation to finish
-            setTimeout(() => {
-              navigate('/dashboard');
-            }, 1000);
-          }
+          Client.setApiKey(e.target.value).then((valid) => {
+            setKeyIsValid(valid);
+            valid && setTimeout(() => navigate('/dashboard'), 1000);
+          });
         }}
       />
       <Spacer y={1} />
-      {connected && 
-      <Link block color="success" href="dashboard">
-        Not getting redirected? Click here.
-      </Link>}
+      {keyIsValid &&
+        <Link block color="success" href="dashboard">
+          Not getting redirected? Click here.
+        </Link>}
     </Layout>
-  )
+  );
 }

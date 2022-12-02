@@ -1,28 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from '@nextui-org/react';
+import { Card, Container, Grid, Text } from '@nextui-org/react';
 import { Layout } from './Layout';
-import WakatimeClient from '../utils/WakatimeClient';
+import Client from '../utils/Client';
+import ProjectSelector from './ProjectSelector';
 
-export default function Dashboard({
-  client,
-}: {
-  client: WakatimeClient;
-}) {
+export default function Dashboard() {
+  const [monitoredProjects, setMonitoredProjects] = useState([]);
   const [heartbeat, setHeartbeat] = useState(Date.now());
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    // Fetch project list
-    client.getProjects().then((projects) => {
-      setProjects(projects.data);
-    });
-  }, [heartbeat]);
-  
-  
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Heartbeat
 
       setHeartbeat(Date.now());
     }, 10000);
@@ -31,9 +18,14 @@ export default function Dashboard({
 
   return (
     <Layout>
-      <Text>
-        {heartbeat}
-      </Text>
+      <ProjectSelector />
+      <Grid.Container gap={2} justify="center"> 
+        <Grid>
+          <Card>
+            <Text h3>Monitored Projects</Text>
+          </Card>
+        </Grid>
+      </Grid.Container>
     </Layout>
   );
 }
