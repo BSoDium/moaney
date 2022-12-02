@@ -11,7 +11,7 @@ import Landing from './components/Landing';
 export default function App() {
 
   return (
-      <BrowserRouter basename='moneytor'>
+      <BrowserRouter>
         <Routes>
           <Route index element={<Navigate to="landing" />} />
           <Route path="landing" element={<Landing />} />
