@@ -1,16 +1,60 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Spacer, Text } from '@nextui-org/react';
-import Auth from '../utils/Auth';
+import storage from '../res/storage.json';
+
+// TODO: Put this in a separate file (Ideally encrypted, but that's a bit useless since 
+// these will be sent to the client anyway)
+const clientId: string = "T1VBlX4sjYhhIIk8Dk7n8po7";
+const clientSecret: string = "waka_sec_kLwKssyVVcJu5vl5RdnnUKPR5gV3bBGglTmsOuyGHbmc2LvysfncI4MhMHZlroHfujaHFgD8Mnqr5GKp";
+const redirectUri: string = "https://www.bsodium.fr/moneytor";
+
+function authorizeAccess() {
+  window.open(`https://wakatime.com/oauth/authorize?client_id=${
+      clientId
+    }&response_type=code&redirect_uri=${
+      redirectUri
+    }&scope=read_stats`, '_blank');
+}
+
+async function getToken(code:string) {
+  return fetch('https://wakatime.com/oauth/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'x-www-form-urlencoded',
+    },
+    body: `client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code&redirect_uri=${redirectUri}`,
+  })
+}
 
 export default function Landing() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const code = searchParams.get('code');
-    code && Auth.setSessionCode(code);
-  }, [searchParams]);
+  const [sessionCode, setSessionCode] = useState(localStorage.getItem(storage.auth.sessionCode))
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
 
+  useEffect(() => {
+    // API redirect
+    if (searchParams.has("code")) {
+      const code = searchParams.get("code");
+      if (code) {
+        setSessionCode(code);
+        localStorage.setItem(storage.auth.sessionCode, code);
+      }
+    }
+
+    // Retrieve access token
+    if (sessionCode) {
+      getToken(sessionCode).then((res) => {
+        res.json().then((data) => {
+          setAccessToken(data.access_token);
+          setRefreshToken(data.refresh_token);
+          console.log(data);
+        });
+      });
+    }
+  }, [searchParams]);
 
   return (
     <div className="container">
@@ -21,7 +65,7 @@ export default function Landing() {
       >Moneytor.</Text>
       <Text h2>Your time is worth money.</Text>
       <Spacer y={1} />
-      <Button color="gradient" bordered onClick={Auth.loadCredentials}>
+      <Button color="gradient" bordered onPress={authorizeAccess}>
         Wakatime login
       </Button>
       {searchParams.get('code') && (
