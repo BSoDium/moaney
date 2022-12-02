@@ -2,7 +2,7 @@
   "name": "moneytor",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://www.bsodium.fr/moneytor/",
+  "homepage": "http://moneytor.vercel.app/",
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.10",
     "@testing-library/jest-dom": "^5.14.1",
