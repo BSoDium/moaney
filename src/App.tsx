@@ -1,9 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Button, Card, Input, Loading, Spacer, Text } from '@nextui-org/react';
-import { BsCheck2 } from 'react-icons/bs';
-import Client from './utils/Client';
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { Layout } from './components/Layout';
+import React from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Landing from './components/Landing';
 

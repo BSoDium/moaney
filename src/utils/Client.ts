@@ -1,8 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import { Buffer } from 'buffer';
 
+/**
+ * A client for the Wakatime API.
+ */
 export default class Client {
-  private static apiKey: string = '';
+  private static apiKey: string = localStorage.getItem('apiKey') || '';
   private static baseUrl: string = 'https://wakatime.com/api/v1';
   private static axios: AxiosInstance = axios.create({
     baseURL: Client.baseUrl,
@@ -10,7 +13,7 @@ export default class Client {
       Authorization: `Basic ${Buffer.from(Client.apiKey).toString('base64')}`,
     },
   });
-  private static connected: boolean = false;
+  private static connected: boolean = Client.apiKey.length > 0;
 
   public static getApiKey() {
     return Client.apiKey;
@@ -18,6 +21,7 @@ export default class Client {
 
   public static async setApiKey(apiKey: string) {
     Client.apiKey = apiKey;
+    localStorage.setItem('apiKey', apiKey);
     Client.axios = axios.create({
       baseURL: `${Client.baseUrl}`,
       params: {
@@ -43,11 +47,14 @@ export default class Client {
     return Client.connected;
   }
   
-  public static async getProjects(query: string) {
+  public static async getProjects(query: string = "", page: number = 1) {
     return Client.axios.get('/users/current/projects', {
       params: {
         q: query,
+        page,
       },
+    }).then((response) => {
+      return response.data.data;
     });
   }
 
@@ -58,6 +65,8 @@ export default class Client {
         start,
         end,
       },
+    }).then((response) => {
+      return response.data.data;
     });
   }
 }

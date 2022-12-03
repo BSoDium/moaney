@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Input, Link, Spacer, Text } from '@nextui-org/react';
-import { Layout } from './Layout';
+import Layout from './Layout';
 import { BsCheck2 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import Client from '../utils/Client';
 
+/**
+ * The landing page, where the user can provide his WakaTime API key.
+ */
 export default function Landing() {
-  const [keyIsValid, setKeyIsValid] = useState(false);
+  const [keyIsValid, setKeyIsValid] = useState(Client.isConnected());
 
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <Layout viewport centered gap="0">
       <Text h1 size={60} css={{
         textGradient: "45deg, $blue600 -20%, $pink600 50%",
       }}
