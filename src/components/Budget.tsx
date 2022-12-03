@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Badge, Card, FormElement, Grid, Input, Text } from '@nextui-org/react';
+import { Badge, Card, FormElement, Grid, Input, Loading, Text } from '@nextui-org/react';
 import { Project } from './ProjectSelector';
 import Client from '../utils/Client';
 
@@ -17,7 +17,8 @@ export default function Budget({
     start: monthStart,
     end: new Date(),
   })
-  const [income, setIncome] = useState(0);
+  const [income, setIncome] = useState<number>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRateChange = (e: React.ChangeEvent<FormElement>) => {
     setHourlyRate(parseFloat(e.target.value));
@@ -27,6 +28,7 @@ export default function Budget({
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setIsLoading(true);
       let sum = 0;
       Promise.all(monitoredProjects.map((project) => Client.getProjectTime(
         project.name, 
@@ -37,6 +39,7 @@ export default function Budget({
           sum += summary.cummulative_total.decimal * hourlyRate;
         });
         setIncome(sum);
+        setIsLoading(false);
       });
 
       setHeartbeat(Date.now());
@@ -50,7 +53,7 @@ export default function Budget({
         <Card isHoverable css={{ p: "$6" }}>
           <Card.Body>
             <Text>Your income for the current month</Text>
-            <Text h2>{income.toFixed(2)} €</Text>
+            <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading/>)}</Text>
             <Input
               type="number"
               placeholder="Hourly rate"

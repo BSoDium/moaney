@@ -96,12 +96,6 @@ export default function ProjectSelector({
     });
   }, [query]);
 
-
-  // Save the monitored projects to the local storage.
-  useEffect(() => {
-    localStorage.setItem('monitoredProjects', monitoredProjects.map((project) => project.id).join(','));
-  }, [monitoredProjects]);
-
   return (
     <Grid.Container
       gap={2}

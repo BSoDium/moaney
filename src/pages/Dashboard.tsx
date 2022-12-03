@@ -39,7 +39,11 @@ export default function Dashboard() {
 
   }, []);
 
-
+  
+  // Save the monitored projects to the local storage.
+  useEffect(() => {
+    localStorage.setItem('monitoredProjects', monitoredProjects.map((project) => project.id).join(','));
+  }, [monitoredProjects]);
 
   return (
     <Layout viewport alignItems='center'>
