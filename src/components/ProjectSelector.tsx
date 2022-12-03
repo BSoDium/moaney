@@ -1,7 +1,8 @@
-import { Button, FormElement, Grid, Input, Loading, Modal, Table, Text, Tooltip } from '@nextui-org/react';
+import { Avatar, Badge, Button, FormElement, Grid, Input, Loading, Modal, Table, Text, Tooltip, User } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { Selection } from '@react-types/shared';
 import Client from '../utils/Client';
+import { FaFolder } from 'react-icons/fa';
 
 export interface Project {
   badge: null,
@@ -96,6 +97,11 @@ export default function ProjectSelector({
   }, [query]);
 
 
+  // Save the monitored projects to the local storage.
+  useEffect(() => {
+    localStorage.setItem('monitoredProjects', monitoredProjects.map((project) => project.id).join(','));
+  }, [monitoredProjects]);
+
   return (
     <Grid.Container
       gap={2}
@@ -124,15 +130,33 @@ export default function ProjectSelector({
             >
               <Table.Header>
                 <Table.Column>NAME</Table.Column>
+                <Table.Column>FOLDER</Table.Column>
                 <Table.Column>LAST EDITED</Table.Column>
-                <Table.Column>PROVIDER</Table.Column>
               </Table.Header>
               <Table.Body>
                 {monitoredProjects.map((project) => (
                   <Table.Row key={project.id}>
-                    <Table.Cell>{project.name}</Table.Cell>
-                    <Table.Cell>{new Date(project.last_heartbeat_at).toDateString()}</Table.Cell>
-                    <Table.Cell>{project.repository?.provider}</Table.Cell>
+                    <Table.Cell>
+                      {project.repository ? (
+                        <User squared size="sm" color="gradient" bordered src={project.repository?.image_icon_url} name={project.repository?.provider}>
+                        {project.repository?.full_name}
+                      </User>
+                      ): (
+                        <User squared color="primary" size="sm" name="Local">
+                          {project.name}
+                        </User>
+                      )}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {project.name}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Tooltip content={new Date(project.last_heartbeat_at).toUTCString()}>
+                        <Badge variant="flat">
+                          {new Date(project.last_heartbeat_at).toLocaleDateString()}
+                        </Badge>
+                      </Tooltip>
+                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

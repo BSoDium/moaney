@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Badge, Card, Grid, Input, Text } from '@nextui-org/react';
+import { Badge, Card, FormElement, Grid, Input, Text } from '@nextui-org/react';
 import { Project } from './ProjectSelector';
 import Client from '../utils/Client';
 
@@ -11,13 +11,18 @@ export default function Budget({
 }: {
   monitoredProjects: Project[],
 }) {
-  const [hourlyRate, setHourlyRate] = useState(0);
-  const [heartbeat, setHeartbeat] = useState(Date.now());
+  const [hourlyRate, setHourlyRate] = useState<number>(parseFloat(localStorage.getItem('hourlyRate') || '0'));
+  const [heartbeat, setHeartbeat] = useState<number>(Date.now());
   const [timeRange, setTimeRange] = useState({
     start: monthStart,
     end: new Date(),
   })
   const [income, setIncome] = useState(0);
+
+  const handleRateChange = (e: React.ChangeEvent<FormElement>) => {
+    setHourlyRate(parseFloat(e.target.value));
+    localStorage.setItem('hourlyRate', e.target.value);
+  }
 
 
   useEffect(() => {
@@ -54,7 +59,7 @@ export default function Budget({
               labelLeft="wage"
               labelRight="€/h"
               value={hourlyRate}
-              onChange={(e) => setHourlyRate(parseFloat(e.target.value))}
+              onChange={handleRateChange}
             />
           </Card.Body>
           <Card.Footer>
