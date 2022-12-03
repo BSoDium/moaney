@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, Link, Spacer, Text } from '@nextui-org/react';
-import Layout from './Layout';
+import Layout from '../components/Layout';
 import { BsCheck2 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import Client from '../utils/Client';
@@ -12,6 +12,14 @@ export default function Landing() {
   const [keyIsValid, setKeyIsValid] = useState(Client.isConnected());
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Client.isConnected()) {
+      setTimeout(() => navigate('/dashboard'), 1000);
+    }
+  
+  }, []);
+  
 
   return (
     <Layout viewport centered gap="0">

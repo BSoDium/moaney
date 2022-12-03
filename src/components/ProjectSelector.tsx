@@ -1,4 +1,4 @@
-import { Button, FormElement, Grid, Input, Loading, Modal, Table, Text } from '@nextui-org/react';
+import { Button, FormElement, Grid, Input, Loading, Modal, Table, Text, Tooltip } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { Selection } from '@react-types/shared';
 import Client from '../utils/Client';
@@ -61,7 +61,6 @@ export default function ProjectSelector({
   const handleSelectionChange = (selection: Selection) => {
     if (selection === "all") {
       setMonitoredProjects(queryProjects);
-      console.log(queryProjects);
     } else {
       const selectedProjects: Project[] = [];
       selection.forEach((id) => {
@@ -84,6 +83,7 @@ export default function ProjectSelector({
    * Modal toggle handler.
    */
   const toggleModal = () => {
+    console.log("toggle");
     setModalVisible(!modalVisible);
   }
 
@@ -91,7 +91,7 @@ export default function ProjectSelector({
   useEffect(() => {
     setIsLoading(true);
     Client.getProjects(query).then((projects) => {
-      setQueryProjects(projects.data.data);
+      setQueryProjects(projects);
       setIsLoading(false);
     });
   }, [query]);
@@ -107,7 +107,7 @@ export default function ProjectSelector({
     >
       <Grid css={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "center", 
       }}>
         <Button
           auto
@@ -117,13 +117,9 @@ export default function ProjectSelector({
           Edit Monitored Projects
         </Button>
       </Grid>
-      <Grid css={{
-        display: "flex",
-        justifyContent: "center",
-      }}>
         {
           monitoredProjects.length > 0 ? (
-
+            <Grid>
             <Table
               aria-label="Monitored Projects"
             >
@@ -150,13 +146,15 @@ export default function ProjectSelector({
                 />
               ) : (<></>)}
             </Table>
+      </Grid>
           ) : (
-            <Text>
-              No projects are being monitored. Click the button above to add some.
+            <Text css={{
+              textAlign: "center",
+            }}>
+              No projects are being monitored. Click the button above to begin.
             </Text>
           )
         }
-      </Grid>
       <Modal
         closeButton
         aria-labelledby='modal-title'
@@ -203,14 +201,8 @@ export default function ProjectSelector({
               align='center'
               rowsPerPage={10}
             />
-
           </Table>
         </Modal.Body>
-        <Modal.Footer>
-          <Button auto shadow onPress={toggleModal}>
-            Add Projects
-          </Button>
-        </Modal.Footer>
       </Modal>
     </Grid.Container>
   );

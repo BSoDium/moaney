@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { Buffer } from 'buffer';
+import { Project } from '../components/ProjectSelector';
 
 /**
  * A client for the Wakatime API.
@@ -46,8 +47,14 @@ export default class Client {
   public static isConnected() {
     return Client.connected;
   }
+
+  public static async getUserInfo() {
+    return Client.axios.get('/users/current').then((response) => {
+      return response.data.data;
+    });
+  }
   
-  public static async getProjects(query: string = "", page: number = 1) {
+  public static async getProjects(query: string = "", page: number = 1): Promise<Project[]> {
     return Client.axios.get('/users/current/projects', {
       params: {
         q: query,
@@ -66,7 +73,7 @@ export default class Client {
         end,
       },
     }).then((response) => {
-      return response.data.data;
+      return response.data;
     });
   }
 }
