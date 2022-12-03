@@ -1,7 +1,7 @@
-import { Container, styled } from '@nextui-org/react';
+import { Container } from '@nextui-org/react';
 import React from 'react';
 
-export default function Layout({ 
+export default function Layout({
   children,
   viewport,
   fill,
@@ -9,8 +9,8 @@ export default function Layout({
   alignItems,
   justifyContent,
   flexDirection,
-  gap,
-}: { 
+  gap
+}: {
   children: React.ReactNode,
   viewport?: boolean,
   fill?: boolean,
@@ -20,22 +20,19 @@ export default function Layout({
   flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse',
   gap?: string,
 }) {
-  
-  
   return (
-    <Container 
-      css={{
+    <div className="layout"
+      style={{
+        height: viewport ? '100vh' : 'auto',
+        width: viewport ? '100vw' : 'auto',
         display: 'flex',
+        alignItems: alignItems || 'center',
+        justifyContent: justifyContent || 'center',
         flexDirection: flexDirection || 'column',
-        height: viewport ? '100vh' : fill ? '100%' : 'auto',
-        width: viewport ? '100vw' : fill ? '100%' : 'auto',
-        alignItems: centered ? 'center' : alignItems || 'flex-start',
-        justifyContent: centered ? 'center' : justifyContent || 'flex-start',
-        columnGap: gap || '1rem',
-        rowGap: gap || '1rem',
+        gap: gap || '0px',
       }}
     >
       {children}
-    </Container>
+    </div>
   );
 }

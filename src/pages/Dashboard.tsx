@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Grid, Navbar, Text, Tooltip, User } from '@nextui-org/react';
+import { Button, Container, Navbar, Text, Tooltip, User } from '@nextui-org/react';
 import Layout from '../components/Layout';
 import Client from '../utils/Client';
 import ProjectSelector, { Project } from '../components/ProjectSelector';
@@ -17,7 +17,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    Client.setApiKey('');
+    Client.signOut();
     localStorage.clear();
     navigate('/');
   }
@@ -39,14 +39,14 @@ export default function Dashboard() {
 
   }, []);
 
-  
+
   // Save the monitored projects to the local storage.
   useEffect(() => {
     localStorage.setItem('monitoredProjects', monitoredProjects.map((project) => project.id).join(','));
   }, [monitoredProjects]);
 
   return (
-    <Layout viewport alignItems='center'>
+    <Layout viewport gap="2rem" centered justifyContent='start'>
       <Navbar variant="sticky">
         <Navbar.Brand>
           <Text b h3>Moneytor.</Text>

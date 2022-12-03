@@ -48,6 +48,12 @@ export default class Client {
     return Client.connected;
   }
 
+  public static signOut() {
+    Client.apiKey = '';
+    Client.connected = false;
+    localStorage.removeItem('apiKey');
+  }
+
   public static async getUserInfo() {
     return Client.axios.get('/users/current').then((response) => {
       return response.data.data;
