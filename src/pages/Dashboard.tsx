@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Navbar, Text, Tooltip, User } from '@nextui-org/react';
+import { Badge, Button, Container, Navbar, Text, Tooltip, User } from '@nextui-org/react';
 import Layout from '../components/Layout';
 import Client from '../utils/Client';
 import ProjectSelector, { Project } from '../components/ProjectSelector';
@@ -48,8 +48,15 @@ export default function Dashboard() {
   return (
     <Layout viewport gap="2rem" centered justifyContent='start'>
       <Navbar variant="sticky">
-        <Navbar.Brand>
+        <Navbar.Brand css={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}>
           <Text b h3>Moneytor.</Text>
+          <Badge size="xs" color="primary" variant="bordered">
+            BETA
+          </Badge>
         </Navbar.Brand>
         <Navbar.Content>
           <Navbar.Link href={links.repository}>
