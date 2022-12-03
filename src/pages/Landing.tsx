@@ -63,9 +63,9 @@ export default function Landing() {
       setRelatedIssues(issues.reduce((acc, issue) => {
         if (issue.labels.some((label) => label.name === 'recommendation')) {
           acc.push(issue);
-          }
-          return acc;
-          }, [] as GhIssue[]));
+        }
+        return acc;
+      }, [] as GhIssue[]));
     });
   }, []);
 
@@ -79,11 +79,10 @@ export default function Landing() {
         }}
           weight="bold"
         >Moneytor.</Text>
-        <Text h2 css={{textAlign: "center"}}>Your time is worth money.</Text>
+        <Text h2 css={{ textAlign: "center" }}>Your time is worth money.</Text>
         <Spacer y={1} />
-        <Input
+        <Input.Password
           clearable
-          type='password'
           labelPlaceholder='Wakatime API Key'
           contentRight={keyIsValid ? <BsCheck2 /> : null}
           status={keyIsValid ? 'success' : (providedKey.length > 0 ? 'error' : 'default')}
@@ -118,12 +117,12 @@ export default function Landing() {
             <Card.Header>
               <Col>
                 <Row>
-                  <Text b size={14} css={{ tt: "capitalize" }}>
+                  <Text b size={14}>
                     Troube logging in?
                   </Text>
                 </Row>
                 <Row>
-                  <Text b size={12} css={{ tt: "capitalize", color: "$accents7" }}>
+                  <Text b size={12} css={{ color: "$accents7" }}>
                     Check out these issues from GitHub
                   </Text>
                 </Row>
@@ -138,19 +137,21 @@ export default function Landing() {
                 </Link>
               ))}
             </Card.Body>
-            <Card.Footer css={{justifyContent: "space-between"}}>
+            <Card.Footer css={{ justifyContent: "space-between" }}>
               <Tooltip placement='bottom' content={
                 <Text size={12}>
-                  Aww snap, you seem to be having trouble logging in, <br/>
-                  worry not, for we&apos;ve found some issues on GitHub that might help you ✌️ <br/>
+                  Aww snap, you seem to be having trouble logging in, <br />
+                  worry not, for we&apos;ve found some issues on GitHub that might help you ✌️ <br />
                 </Text>
               }>
-                <Text b size={12} css={{ tt: "capitalize", color: "$accents7" }}>
-                  Why am I seeing this?
-                </Text>
+                <Link block>
+                  <Text b size={12} css={{ tt: "capitalize", color: "$accents7" }}>
+                    Why am I seeing this?
+                  </Text>
+                </Link>
               </Tooltip>
 
-              <Button auto flat size="sm" color="error" onClick={() => {setAttemptCount(0)}}>
+              <Button auto flat size="sm" color="error" onClick={() => { setAttemptCount(0) }}>
                 Dismiss
               </Button>
             </Card.Footer>

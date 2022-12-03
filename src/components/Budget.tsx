@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Card, FormElement, Grid, Input, Loading, Text } from '@nextui-org/react';
+import { Badge, Card, FormElement, Grid, Input, Loading, Switch, SwitchEvent, Text, Tooltip } from '@nextui-org/react';
 import { Project } from './ProjectSelector';
+import settings from '../res/settings.json';
 import Client from '../utils/Client';
 
 const monthStart = new Date();
@@ -25,16 +26,15 @@ export default function Budget({
     localStorage.setItem('hourlyRate', e.target.value);
   }
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       setIsLoading(true);
       let sum = 0;
       Promise.all(monitoredProjects.map((project) => Client.getProjectTime(
-        project.name, 
+        project.name,
         timeRange.start.toISOString().split('T')[0],
         timeRange.end.toISOString().split('T')[0],
-        ))).then((summaries) => {
+      ))).then((summaries) => {
         summaries.forEach((summary) => {
           sum += summary.cummulative_total.decimal * hourlyRate;
         });
@@ -43,17 +43,17 @@ export default function Budget({
       });
 
       setHeartbeat(Date.now());
-    }, 5000);
+    }, settings.updateInterval);
     return () => clearInterval(interval);
   }, [hourlyRate, monitoredProjects, timeRange]);
 
   return (
     <Grid.Container gap={2} justify="center">
       <Grid xs={12} md={6} lg={4}>
-        <Card isHoverable css={{ p: "$6" }}>
+        <Card css={{ p: "$6" }}>
           <Card.Body>
             <Text>Your income for the current month</Text>
-            <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading/>)}</Text>
+            <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading />)}</Text>
             <Input
               type="number"
               placeholder="Hourly rate"
@@ -66,9 +66,14 @@ export default function Budget({
             />
           </Card.Body>
           <Card.Footer>
-            <Badge variant="flat">
-              Updated at {new Date(heartbeat).toLocaleTimeString()}
-            </Badge>
+            <Grid xs={12} alignItems="center">
+              <Badge variant="dot" color={
+                isLoading ? 'warning' : 'success'
+              } />
+              <Text b size={12} css={{ ml: "$2", color: "$accents7" }}>
+                Updated at {new Date(heartbeat).toLocaleTimeString()}
+              </Text>
+            </Grid>
           </Card.Footer>
         </Card>
       </Grid>

@@ -123,8 +123,8 @@ export default function ProjectSelector({
               aria-label="Monitored Projects"
             >
               <Table.Header>
+                <Table.Column>LOCATION</Table.Column>
                 <Table.Column>NAME</Table.Column>
-                <Table.Column>FOLDER</Table.Column>
                 <Table.Column>LAST EDITED</Table.Column>
               </Table.Header>
               <Table.Body>
@@ -133,16 +133,18 @@ export default function ProjectSelector({
                     <Table.Cell>
                       {project.repository ? (
                         <User squared size="sm" color="gradient" bordered src={project.repository?.image_icon_url} name={project.repository?.provider}>
-                        {project.repository?.full_name}
-                      </User>
-                      ): (
+                          {project.repository?.full_name}
+                        </User>
+                      ) : (
                         <User squared color="primary" size="sm" name="Local">
                           {project.name}
                         </User>
                       )}
                     </Table.Cell>
                     <Table.Cell>
-                      {project.name}
+                      <Badge variant="bordered" isSquared>
+                        {project.name}
+                      </Badge>
                     </Table.Cell>
                     <Table.Cell>
                       <Tooltip content={new Date(project.last_heartbeat_at).toUTCString()}>
