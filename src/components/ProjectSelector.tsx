@@ -83,7 +83,6 @@ export default function ProjectSelector({
    * Modal toggle handler.
    */
   const toggleModal = () => {
-    console.log("toggle");
     setModalVisible(!modalVisible);
   }
 
@@ -107,7 +106,7 @@ export default function ProjectSelector({
     >
       <Grid css={{
         display: "flex",
-        justifyContent: "center", 
+        justifyContent: "center",
       }}>
         <Button
           auto
@@ -117,9 +116,9 @@ export default function ProjectSelector({
           Edit Monitored Projects
         </Button>
       </Grid>
-        {
-          monitoredProjects.length > 0 ? (
-            <Grid>
+      {
+        monitoredProjects.length > 0 ? (
+          <Grid>
             <Table
               aria-label="Monitored Projects"
             >
@@ -137,24 +136,22 @@ export default function ProjectSelector({
                   </Table.Row>
                 ))}
               </Table.Body>
-              {monitoredProjects.length > 4 ? (
-                <Table.Pagination
-                  shadow
-                  noMargin
-                  align='center'
-                  rowsPerPage={4}
-                />
-              ) : (<></>)}
+              <Table.Pagination
+                shadow
+                noMargin
+                align='center'
+                rowsPerPage={4}
+              />
             </Table>
-      </Grid>
-          ) : (
-            <Text css={{
-              textAlign: "center",
-            }}>
-              No projects are being monitored. Click the button above to begin.
-            </Text>
-          )
-        }
+          </Grid>
+        ) : (
+          <Text css={{
+            textAlign: "center",
+          }}>
+            No projects are being monitored. Click the button above to begin.
+          </Text>
+        )
+      }
       <Modal
         closeButton
         aria-labelledby='modal-title'
