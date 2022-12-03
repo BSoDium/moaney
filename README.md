@@ -10,7 +10,7 @@ This application requires a Wakatime API key. You can get one by signing up for 
 
 At this time, Moneytor requires the use of an HTTP request interceptor to work properly (you will not be able to authenticate without it). I recommend using [Requestly](https://requestly.io/) for this purpose, since it is completely free, and a ready-to-use configuration is provided [here](https://app.requestly.io/rules/#sharedList/1670083906431-Wakatime).
 
-For more information on how and why this is required, please refer to #3.
+For more information on how and why this is required, please refer to https://github.com/BSoDium/moneytor/issues/3.
 
 ## Developer setup
 
