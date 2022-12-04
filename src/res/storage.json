@@ -4,6 +4,9 @@
     "accessToken": "access-token",
     "refreshToken": "refresh-token"
   },
+  "monitoring": {
+    "projects": "monitored-projects"
+  },
   "hourlyRate": "hourly-rate",
   "currency": "currency"
 }

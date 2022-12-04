@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Container, Navbar, Text, Tooltip, User } from '@nextui-org/react';
+import { Badge, Button, Navbar, Text, Tooltip, User } from '@nextui-org/react';
+import storage from '../res/storage.json';
 import Layout from '../components/Layout';
 import Client from '../utils/Client';
 import ProjectSelector, { Project } from '../components/ProjectSelector';
@@ -34,15 +35,17 @@ export default function Dashboard() {
     });
 
     // Load data from the local storage.
-    const saved = localStorage.getItem('monitoredProjects');
-    saved && setMonitoredProjects(saved?.split(',').map((id) => ({ id } as Project)));
+    const saved = localStorage.getItem(storage.monitoring.projects)?.split(',') || [];
+    Promise.all(saved.map((name) => Client.getProjects(name))).then((projectSearchResults) => {
+      setMonitoredProjects(projectSearchResults.map((result) => result[0]));
+    });
 
   }, []);
 
 
   // Save the monitored projects to the local storage.
   useEffect(() => {
-    localStorage.setItem('monitoredProjects', monitoredProjects.map((project) => project.id).join(','));
+    monitoredProjects.length > 0 && localStorage.setItem(storage.monitoring.projects, monitoredProjects.map((project) => project.name).join(','));
   }, [monitoredProjects]);
 
   return (

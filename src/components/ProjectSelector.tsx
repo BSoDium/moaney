@@ -64,8 +64,8 @@ export default function ProjectSelector({
       setMonitoredProjects(queryProjects);
     } else {
       const selectedProjects: Project[] = [];
-      selection.forEach((id) => {
-        const project = queryProjects.find((project) => project.id === id);
+      selection.forEach((name) => {
+        const project = queryProjects.find((project) => project.name === name);
         project && selectedProjects.push(project);
       });
       setMonitoredProjects(selectedProjects);
@@ -129,7 +129,7 @@ export default function ProjectSelector({
               </Table.Header>
               <Table.Body>
                 {monitoredProjects.map((project) => (
-                  <Table.Row key={project.id}>
+                  <Table.Row key={project.name}>
                     <Table.Cell>
                       {project.repository ? (
                         <User squared size="sm" color="gradient" bordered src={project.repository?.image_icon_url} name={project.repository?.provider}>
@@ -193,7 +193,7 @@ export default function ProjectSelector({
         <Modal.Body>
           <Table
             onSelectionChange={handleSelectionChange}
-            selectedKeys={monitoredProjects.map((project) => project.id)}
+            selectedKeys={monitoredProjects.map((project) => project.name)}
             aria-label="Choose the projects you want to track"
             selectionMode="multiple"
             bordered
@@ -205,7 +205,7 @@ export default function ProjectSelector({
             </Table.Header>
             <Table.Body>
               {queryProjects.map((project) => (
-                <Table.Row key={project.id}>
+                <Table.Row key={project.name}>
                   <Table.Cell>{project.name}</Table.Cell>
                   <Table.Cell>{new Date(project.last_heartbeat_at).toDateString()}</Table.Cell>
                   <Table.Cell>{project.repository?.provider}</Table.Cell>
