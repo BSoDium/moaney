@@ -2,7 +2,7 @@ import { Avatar, Badge, Button, FormElement, Grid, Input, Loading, Modal, Table,
 import React, { useEffect, useState } from 'react';
 import { Selection } from '@react-types/shared';
 import Client from '../utils/Client';
-import { FaFolder } from 'react-icons/fa';
+import links from '../res/links.json';
 
 export interface Project {
   badge: null,
@@ -29,7 +29,7 @@ export interface Project {
     "last_synced_at": null,
     "modified_at": string,
     "name": string,
-    "provider": string,
+    "provider": 'github' | 'gitlab' | 'bitbucket',
     "star_count": number,
     "url": string,
     "urlencoded_name": string,
@@ -132,19 +132,19 @@ export default function ProjectSelector({
                   <Table.Row key={project.name}>
                     <Table.Cell>
                       {project.repository ? (
-                        <User squared size="sm" color="gradient" bordered src={project.repository?.image_icon_url} name={project.repository?.provider}>
+                        <User squared size="sm" color="gradient" bordered src={links.icons[project.repository?.provider]} name={project.repository?.provider}>
                           {project.repository?.full_name}
                         </User>
                       ) : (
-                        <User squared color="primary" size="sm" name="Local">
+                        <User squared color="gradient" bordered size="sm" name="Local" src={links.icons.local}>
                           {project.name}
                         </User>
                       )}
                     </Table.Cell>
                     <Table.Cell>
-                      <Badge variant="bordered" isSquared>
+                      <Text>
                         {project.name}
-                      </Badge>
+                      </Text>
                     </Table.Cell>
                     <Table.Cell>
                       <Tooltip content={new Date(project.last_heartbeat_at).toUTCString()}>
@@ -156,12 +156,15 @@ export default function ProjectSelector({
                   </Table.Row>
                 ))}
               </Table.Body>
-              <Table.Pagination
-                shadow
-                noMargin
-                align='center'
-                rowsPerPage={4}
-              />
+              {monitoredProjects.length > 4 ? (
+                <Table.Pagination
+                  shadow
+                  noMargin
+                  align='center'
+                  rowsPerPage={4}
+                />) : (
+                  null as any // HACK: This typing is wrong.
+                )}
             </Table>
           </Grid>
         ) : (

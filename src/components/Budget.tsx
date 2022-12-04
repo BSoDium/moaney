@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Card, FormElement, Grid, Input, Loading, Switch, SwitchEvent, Text, Tooltip } from '@nextui-org/react';
 import { Project } from './ProjectSelector';
+import AnimatedNumbers from "react-animated-numbers";
 import settings from '../res/settings.json';
 import Client from '../utils/Client';
 

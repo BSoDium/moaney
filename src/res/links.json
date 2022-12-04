@@ -1,4 +1,10 @@
 {
   "repository": "https://github.com/bsodium/moneytor",
-  "documentation": "https://github.com/bsodium/moneytor/blob/master/README.md"
+  "documentation": "https://github.com/bsodium/moneytor/blob/master/README.md",
+  "icons": {
+    "github": "https://img.icons8.com/fluency/512/github.png",
+    "gitlab": "https://img.icons8.com/color/512/gitlab.png",
+    "bitbucket": "https://img.icons8.com/color/512/bitbucket.png",
+    "local": "https://img.icons8.com/fluency/512/monitor.png"
+  }
 }

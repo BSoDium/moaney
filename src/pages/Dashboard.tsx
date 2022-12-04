@@ -90,7 +90,7 @@ export default function Dashboard() {
         </Navbar.Content>
       </Navbar>
       <Text h2>
-        Welcome, {userInfo?.display_name.split(" ")[0] || 'user'}!
+        Welcome, {userInfo?.display_name.split(" ")[0] || 'user'} ✌️
       </Text>
       <ProjectSelector monitoredProjects={monitoredProjects} setMonitoredProjects={setMonitoredProjects} />
       <Budget monitoredProjects={monitoredProjects} />
