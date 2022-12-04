@@ -1,3 +1,4 @@
 {
-  "updateInterval": 5000
+  "updateInterval": 5000,
+  "attemptsBeforeHint": 5
 }

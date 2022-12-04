@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import { BsCheck2 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import Client from '../utils/Client';
+import settings from '../res/settings.json';
 
 interface GhIssue {
   url: string;
@@ -107,7 +108,7 @@ export default function Landing() {
         </Link>
       }
       {
-        attemptCount > 10 && relatedIssues.length > 0 && (
+        attemptCount > settings.attemptsBeforeHint && relatedIssues.length > 0 && (
           <Card
             css={{
               width: 'min(90%, 30rem)',
