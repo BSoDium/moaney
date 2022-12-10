@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Card, FormElement, Grid, Input, Loading, Switch, SwitchEvent, Text, Tooltip } from '@nextui-org/react';
 import { Project } from './ProjectSelector';
-import AnimatedNumbers from "react-animated-numbers";
 import settings from '../res/settings.json';
 import Client from '../utils/Client';
 
@@ -53,8 +52,19 @@ export default function Budget({
       <Grid xs={12} md={6} lg={4}>
         <Card css={{ p: "$6" }}>
           <Card.Body>
-            <Text>Your income for the current month</Text>
-            <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading />)}</Text>
+            <Grid.Container gap={2} justify="center">
+              <Grid xs={12} md={6} direction="column">
+                <Text>Your income for this month
+                </Text>
+                <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading />)}</Text>
+              </Grid>
+              <Grid xs={12} md={6} direction="column">
+                <Text>
+                  Estimated total income
+                </Text>
+                <Text h2>{income ? `${(income * 30 / timeRange.end.getDate()).toFixed(2)} €` : (<Loading />)}</Text>
+              </Grid>
+            </Grid.Container>
             <Input
               type="number"
               placeholder="Hourly rate"
