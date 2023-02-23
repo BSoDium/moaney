@@ -36,9 +36,12 @@ export default function Budget({
         timeRange.end.toISOString().split('T')[0],
       ))).then((summaries) => {
         summaries.forEach((summary) => {
-          sum += summary.cummulative_total.decimal * hourlyRate;
+          sum += summary.cumulative_total.decimal * hourlyRate;
         });
         setIncome(sum);
+        setIsLoading(false);
+      }).catch((err) => {
+        console.error(err);
         setIsLoading(false);
       });
 
@@ -56,13 +59,13 @@ export default function Budget({
               <Grid xs={12} md={6} direction="column">
                 <Text>Your income for this month
                 </Text>
-                <Text h2>{income ? `${income.toFixed(2)} €` : (<Loading />)}</Text>
+                <Text h2>{income !== undefined ? `${income.toFixed(2)} €` : (<Loading />)}</Text>
               </Grid>
               <Grid xs={12} md={6} direction="column">
                 <Text>
                   Estimated total income
                 </Text>
-                <Text h2>{income ? `${(income * 30 / timeRange.end.getDate()).toFixed(2)} €` : (<Loading />)}</Text>
+                <Text h2>{income !== undefined ? `${(income * 30 / timeRange.end.getDate()).toFixed(2)} €` : (<Loading />)}</Text>
               </Grid>
             </Grid.Container>
             <Input
